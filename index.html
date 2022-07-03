@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
 	<title>福州大学一码通</title>
 	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="https://cdn.bootcss.com/jsbarcode/3.8.0/JsBarcode.all.min.js"></script>
@@ -183,7 +184,7 @@
 	<div class="contentBox">
 		<div class="content">
 			<div style="margin-top: 0.8vh;height:5.2vh">
-				<span id="xingming" onload="focus();">姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
+				<span id="xingming">姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
 					onblur="resetName()">null(仅可修改一次)</span>
 			</div>
 			<div style="height:6vh">
@@ -222,9 +223,9 @@
 		function setName() {
 			var stuName = document.getElementById('stuName').textContent;
 			if (stuName == "null(仅可修改一次)") {
-				document.getElementById('stuName').textContent = '(仅可修改一次！)';// 用于缓冲
+				document.getElementById("xingming").click();// 用于缓冲
 				document.getElementById('stuName').textContent = '';
-				stuName = document.getElementById('stuName').textContent; //更新stuName==''
+				stuName = document.getElementById('stuName').textContent; //更新stuName==' '
 			}
 			if (stuName != "") {
 				$("#stuName").attr("contenteditable", "false");
