@@ -183,7 +183,7 @@
 	<div class="contentBox">
 		<div class="content">
 			<div style="margin-top: 0.8vh;height:5.2vh">
-				<span>姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
+				<span id="xingming">姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
 					onblur="resetName()">null(仅可修改一次)</span>
 			</div>
 			<div style="height:6vh">
@@ -214,6 +214,10 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		window.onload = function () { //放置网页一打开即运行的代码
+		    document.getElementById("xingming").click();	// 无实义，用于把焦点变到屏幕上。
+		};
+
 		//设置姓名
 		function setName() {
 			var stuName = document.getElementById('stuName').textContent;
