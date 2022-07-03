@@ -215,14 +215,14 @@
 	</div>
 	<script type="text/javascript">
 		window.onload = function () { //放置网页一打开即运行的代码
-		    document.getElementById("xingming").click();	// 无实义，用于把焦点变到屏幕上。
+			setTimeout(document.getElementById("xingming").click(), 300	);	// 无实义，用于把焦点变到屏幕上。
 		};
 
 		//设置姓名
 		function setName() {
 			var stuName = document.getElementById('stuName').textContent;
 			if (stuName == "null(仅可修改一次)") {
-				document.getElementById('stuName').focus;	// 加快获取光标。也可删。
+				document.getElementById('stuName').focus();	// 加快获取光标。也可删。
 				document.getElementById('stuName').textContent = '';
 				stuName = document.getElementById('stuName').textContent; //更新stuName==''
 			}
