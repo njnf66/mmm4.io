@@ -183,7 +183,7 @@
 	<div class="contentBox">
 		<div class="content">
 			<div style="margin-top: 0.8vh;height:5.2vh">
-				<span id="xingming">姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
+				<span id="xingming" onload="focus();">姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
 					onblur="resetName()">null(仅可修改一次)</span>
 			</div>
 			<div style="height:6vh">
@@ -214,15 +214,15 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		window.onload = function () { //放置网页一打开即运行的代码
-			setTimeout(document.getElementById("xingming").click(), 300	);	// 无实义，用于把焦点变到屏幕上。
-		};
+		// window.onload = function () { //放置网页一打开即运行的代码
+		// 	setTimeout(document.getElementById("xingming").click(), 300	);	// 无实义，用于把焦点变到屏幕上。
+		// };
 
 		//设置姓名
 		function setName() {
 			var stuName = document.getElementById('stuName').textContent;
 			if (stuName == "null(仅可修改一次)") {
-				document.getElementById('stuName').focus();	// 加快获取光标。也可删。
+				document.getElementById('stuName').textContent = '(仅可修改一次！)';// 用于缓冲
 				document.getElementById('stuName').textContent = '';
 				stuName = document.getElementById('stuName').textContent; //更新stuName==''
 			}
