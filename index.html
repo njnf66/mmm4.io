@@ -3,7 +3,8 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes,maximum-scale=5,minimum-scale=1">
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,user-scalable=yes,maximum-scale=5,minimum-scale=1">
 	<title>福州大学一码通</title>
 	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="https://cdn.bootcss.com/jsbarcode/3.8.0/JsBarcode.all.min.js"></script>
@@ -22,7 +23,7 @@
 		}
 
 		span {
-			font-size: 2.7vh;
+			font-size: 2.4vh;
 			color: #fff;
 			margin-bottom: 2.19vh;
 		}
@@ -66,7 +67,7 @@
 		}
 
 		.time {
-			height: 8vh;
+			/* height: 8vh; */
 			display: flex;
 			align-items: baseline;
 			justify-content: center;
@@ -74,25 +75,23 @@
 
 		#second {
 			margin: 0 1vh;
-			font-size: 10vw;
+			font-size: 9vw;
 			font-weight: 900;
 			/*字体粗细100~900，,400为normal*/
 		}
 
 		.time span {
-			font-size: 5.5vw;
+			font-size: 5vw;
 			color: rgb(35, 146, 69);
 			font-weight: 900;
 			/*字体粗细100~900，,400为normal*/
 		}
 
 		.qcodeBox {
-			margin-top: 1vh;
+			margin-top: 0.9vh;
 			display: flex;
 			justify-content: center;
 		}
-
-		.qrcode {}
 
 		.txt {
 			color: rgb(35, 146, 69);
@@ -111,7 +110,7 @@
 		.card {
 			position: absolute;
 			width: 5.5vw;
-			height: 5.5vw;
+			height: 5.3vw;
 			line-height: 5.5vw;
 			float: left;
 			box-sizing: border-box;
@@ -121,10 +120,10 @@
 
 		.cardtext {
 			position: absolute;
-			color: rgb(42, 43, 42);
+			color: rgb(55, 55, 55);
 			line-height: 4vw;
 			font-size: 3.5vw;
-			font-weight: 900;
+			font-weight: 800;
 			/*字体粗细100~900，,400为normal*/
 			margin-left: 7vw;
 			float: left;
@@ -139,27 +138,29 @@
 		}
 
 		#name {
-			height: 3.7vh;
-			line-height: 3.7vh;
-			/* 2.5*1.5倍行距= 3.75 */
-			width: 16.25vh;
-			/* 2.5*6个字 = 15; +(2.5/2,半个字)=16.25 */
-			font-size: 2.5vh;
+			height: 4vh;
+			line-height: 2.5vh;
+			/* 2.4*1.5倍行距= 3.6 */
+			width: 32.7vw;
+			/* 2.4*6个字 = 14.4; +(2.4/2,半个字)=15.6 */
+			font-size: 2.4vh;
 			font-weight: bold;
 			color: #fff;
 			background: transparent;
-			border: 0.2vh solid #fff;
+			border: 0.18vh solid #fff;
+			/* border-top: 0.1vh; */
 			border-radius: 0.8vh;
-			text-align: center;
+			/* text-align: center; */
 		}
 
 		#float {
 			/* position: absolute;
 			left: 0;
 			bottom: 10vh; */
-			margin-top: 0.7vh;
+			margin-top: 0.3vh;
+			margin-bottom: 0.3vh;
 			height: 7vh;
-			font-size: 5.5vh;
+			font-size: 5.4vh;
 			color: rgb(35, 146, 69);
 			width: 100%;
 			display: inline-block;
@@ -168,6 +169,7 @@
 			/* font-weight: bold; */
 		}
 
+		/* 口令滚动 */
 		@keyframes turnLeft {
 			from {
 				transform: translateX(0);
@@ -183,12 +185,13 @@
 <body>
 	<div class="contentBox">
 		<div class="content">
-			<div style="margin-top: 0.8vh;height:5.2vh">
-				<span id="xingming">姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
-					onblur="resetName()">null(仅可修改一次)</span>
+			<div style="margin-top: 0.85vh;height:5.15vh">
+				<span>姓名： </span><span id="stuName" contenteditable="true" onfocus="setName()"
+					onblur="resetName()"></span>
 			</div>
 			<div style="height:6vh">
-				<span>部门： </span><span id="stuDept" contenteditable="true">物理与信息工程学院</span>
+				<span>部门： </span><span id="stuDept" contenteditable="true" onfocus="setDept()"
+					onblur="resetDept()"></span>
 			</div>
 			<div class="box" style="height:auto">
 				<img id="barcode">
@@ -197,11 +200,11 @@
 					<span id="second"></span>
 					<span id="time"></span>
 				</div>
-				<div class="qcodeBox">
+				<div class="qcodeBox" onclick="resetcodeContent()">
 					<div id="qrcode"></div>
 				</div>
-				<div id="float"></div>
-				<div class="txt">
+				<div id="float" onclick="resetcodeContent()"></div>
+				<div class="txt" onclick="resetcodeContent()">
 					未见异常，允许通行，请主动出示，配合检测，并做好自我防护，出行前请确认。
 				</div>
 				<div class="cardBox">
@@ -210,59 +213,104 @@
 				</div>
 			</div>
 			<div class="nameBox">
-				<input type="text" id="name" value="每日健康填报" onfocus="clearName()" onblur="getName()">
+				<form action="http://id.fzu.edu.cn/authserver/callback" method="POST">
+					<input type="submit" id="name" value="每日健康填报" readonly="readonly" onclick="clearName()">
+				</form>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		// window.onload = function () { //放置网页一打开即运行的代码
-		// 	setTimeout(document.getElementById("xingming").click(), 300	);	// 无实义，用于把焦点变到屏幕上。
-		// };
 
+	<script type="text/javascript">
+		//读取本地的"姓名"
+		document.getElementById('stuName').textContent = localStorage.getItem('tongXingMa_stuName');// 本地“键值对”读出,首次值为'undefined'。
+		if ((document.getElementById('stuName').textContent == "undefined") || (document.getElementById('stuName').textContent == "null") || (document.getElementById('stuName').textContent == "")) {
+			document.getElementById('stuName').textContent = 'null(仅可修改一次)';
+		}
+		//读取本地的"部门"
+		document.getElementById('stuDept').textContent = localStorage.getItem('tongXingMa_stuDept');// 本地“键值对”读出,首次值为'undefined'。
+		if ((document.getElementById('stuDept').textContent == "undefined") || (document.getElementById('stuDept').textContent == "null") || (document.getElementById('stuDept').textContent == "")) {
+			document.getElementById('stuDept').textContent = 'null(仅可修改一次)';
+		}
 		//设置姓名
 		function setName() {
 			var stuName = document.getElementById('stuName').textContent;
 			if (stuName == "null(仅可修改一次)") {
-				document.getElementById("xingming").click();// 用于缓冲
 				document.getElementById('stuName').textContent = '';
-				stuName = document.getElementById('stuName').textContent; //更新stuName==' '
+				stuName = document.getElementById('stuName').textContent; //更新stuName==''
 			}
 			if (stuName != "") {
 				$("#stuName").attr("contenteditable", "false");
+				localStorage.setItem('tongXingMa_stuName', document.getElementById('stuName').textContent); // 将姓名以“键值对”存入本地
 				console.log(stuName);
 				// alert(stuName);
 			}
 		}
-		// 除去文字的空格，确认输入；若无有效输入，则重置文本。
+		//设置部门
+		function setDept() {
+			var stuDept = document.getElementById('stuDept').textContent;
+			if (stuDept == "null(仅可修改一次)") {
+				document.getElementById('stuDept').textContent = '';
+				stuDept = document.getElementById('stuDept').textContent; //更新stuDept==''
+			}
+			if (stuDept != "") {
+				$("#stuDept").attr("contenteditable", "false");
+				localStorage.setItem('tongXingMa_stuDept', document.getElementById('stuDept').textContent); // 将部门以“键值对”存入本地
+				console.log(stuDept);
+				// alert(stuDept);
+			}
+		}
+		// 除去“姓名”的空格，并确认输入；若无有效输入，则重置文本。
 		function resetName() {
 			document.getElementById('stuName').textContent = document.getElementById('stuName').textContent.replace(/\s+/g, "");
 			if (document.getElementById('stuName').textContent == "") {
 				document.getElementById('stuName').textContent = 'null(仅可修改一次)';
 			}
+			localStorage.setItem('tongXingMa_stuName', document.getElementById('stuName').textContent); // 将新“姓名”存入本地
 		}
-
-		// 连续点击“姓名”7秒可重置“姓名”
+		// 除去“部门”的空格，并确认输入；若无有效输入，则重置文本。
+		function resetDept() {
+			document.getElementById('stuDept').textContent = document.getElementById('stuDept').textContent.replace(/\s+/g, "");
+			if (document.getElementById('stuDept').textContent == "") {
+				document.getElementById('stuDept').textContent = 'null(仅可修改一次)';
+			}
+			localStorage.setItem('tongXingMa_stuDept', document.getElementById('stuDept').textContent); // 将新“部门”存入本地
+		}
+		//“姓名”、“部门”重置
 		var timer = null;
 		var waitTime = 500; // 该时间间隔内点击两次，才算连续点击（单位：ms）
 		var lastTime = new Date().getTime();     // 上次点击时间_初始化
 		var lastTimeFirst = new Date().getTime();// 首次点击时间_初始化
 		var currentTime = new Date().getTime();  // 本次点击时间_初始化
-		var count = 0; // 连续点击次数
-		// 获取对象
-		document.getElementById('stuName').onclick = function (event) {
+		// 连续点击“姓名”7秒，可重置“姓名”
+		var count1 = 0; // “姓名”连续点击次数
+		document.getElementById('stuName').onclick = function (event) {	 //获取对象
 			currentTime = new Date().getTime();
-			count = (currentTime - lastTime) < waitTime ? count + 1 : 1; //更新点击次数（运行首次判断必然为“否”）
+			count1 = (currentTime - lastTime) < waitTime ? count1 + 1 : 1; //更新点击次数（运行首次判断必然为“否”）
 			lastTime = new Date().getTime();			//重置上次点击时间
-			if (count == 1) {
+			if (count1 == 1) {
 				lastTimeFirst = new Date().getTime();  	//重置首次点击时间
 			}
 			if ((currentTime - lastTimeFirst) > 7000) {	//连续点击7秒可重置“姓名”
 				document.getElementById('stuName').textContent = 'null(仅可修改一次)';
 				$("#stuName").attr("contenteditable", "true");
-				count = 1;
+				count1 = 1;
 			}
 		};
-
+		// 连续点击“部门”7秒，可重置“部门”
+		var count2 = 0; // “部门”连续点击次数
+		document.getElementById('stuDept').onclick = function (event) {	 //获取对象
+			currentTime = new Date().getTime();
+			count2 = (currentTime - lastTime) < waitTime ? count2 + 1 : 1; //更新点击次数（运行首次判断必然为“否”）
+			lastTime = new Date().getTime();			//重置上次点击时间
+			if (count2 == 1) {
+				lastTimeFirst = new Date().getTime();  	//重置首次点击时间
+			}
+			if ((currentTime - lastTimeFirst) > 7000) {	//连续点击7秒可重置“部门”
+				document.getElementById('stuDept').textContent = 'null(仅可修改一次)';
+				$("#stuDept").attr("contenteditable", "true");
+				count2 = 1;
+			}
+		};
 
 		//动态时间
 		// 日期
@@ -289,37 +337,6 @@
 			$('#second').html(second)
 			$('#time').html(time)
 		}, 1000)
-
-		//口令
-		let float = whatPassword(new Date())
-		$('#float').text(float)
-
-		CreateIma()
-		//生成条码
-		function CreateIma() {
-			var content = '404811811811881181188118';
-			var barcode = document.getElementById('barcode'),
-				//str = "chenyanbin",
-				options = {
-					format: "CODE128",
-					displayValue: true,
-					fontSize: 0,
-					height: 120
-				};
-			JsBarcode(barcode, content, options); //原生JS方式
-			// $('#barcode').JsBarcode(string, options); //jQuery方式
-		}
-
-		//生成二维码
-		var config = {
-			width: $(document.body).width() / 100.0 * 34,
-			height: $(document.body).width() / 100.0 * 34,
-			text: '404811811811881181188118', //text就表示二维码中存储的数据  必须传递
-			correctLevel: 1,//取值为0|1|2|3 表示二维码的纠错级别0:L/1:M/2:Q/3:H ,默认0  可选参数
-			background: "#FFFFFF",	//默认白色, 表示二维码的后景颜色 可选参数
-			foreground: "#000000",	//默认黑色, 表示二维码的前景颜色 可选参数
-		};
-		$("#qrcode").qrcode(config);// jq找到id 为qrcode的 div，执行 二维码生成
 
 		function dateFormat(data) {
 			Date.prototype.Format = function (fmt) {
@@ -377,6 +394,63 @@
 			return data.Format('hh:mm');
 		}
 
+		//生成20位的随机数
+		var codeContent = '40' + randomNumber(18);
+		function randomNumber(len) {
+			let chars = '0123456789';
+			let maxPos = chars.length;
+			let str = '';
+			for (let i = 0; i < len; i++) {
+				str += chars.charAt(Math.floor(Math.random() * maxPos));
+			}
+			return str;
+		}
+		//生成一维条码
+		function CreateIma() {
+			var barcode = document.getElementById('barcode'),
+				//str = "chenyanbin",
+				options = {
+					format: "CODE128",
+					displayValue: true,
+					fontSize: 0,
+					height: 120
+				};
+			JsBarcode(barcode, codeContent, options); //原生JS方式
+			// $('#barcode').JsBarcode(string, options); //jQuery方式
+		}
+		CreateIma();	//生成一维条码
+
+		//生成二维码
+		var config = {
+			width: $(document.body).width() / 100.0 * 34,
+			height: $(document.body).width() / 100.0 * 34,
+			text: codeContent, //text就表示二维码中存储的数据  必须传递
+			correctLevel: 1,//取值为0|1|2|3 表示二维码的纠错级别0:L/1:M/2:Q/3:H ,默认0  可选参数
+			background: "#FFFFFF",	//默认白色, 表示二维码的后景颜色 可选参数
+			foreground: "#000000",	//默认黑色, 表示二维码的前景颜色 可选参数
+		};
+		$("#qrcode").qrcode(config);// jq找到id 为qrcode的 div，执行 二维码生成
+		console.log(config.text);
+
+		//重置一维码、二维码
+		function resetcodeContent() {
+			codeContent = '40' + randomNumber(18);
+			CreateIma();
+			config = {	//重新设二维码的数据
+			width: $(document.body).width() / 100.0 * 34,
+			height: $(document.body).width() / 100.0 * 34,
+			text: codeContent,	//text就表示二维码中存储的数据  必须传递
+			correctLevel: 1,	//取值为0|1|2|3 表示二维码的纠错级别0:L/1:M/2:Q/3:H ,默认0  可选参数
+			background: "#FFFFFF",	//默认白色, 表示二维码的后景颜色 可选参数
+			foreground: "#000000",	//默认黑色, 表示二维码的前景颜色 可选参数
+		};
+			$("#qrcode").html("");  //清除id='qrcode'的原有的数据
+			$("#qrcode").qrcode(config);
+		}
+
+		//口令
+		let float = whatPassword(new Date())
+		$('#float').text(float)
 		//口令自动填入
 		function whatPassword(inspectionTime) {
 			var timeStamp1 = Date.parse(new Date("2022-06-25 00:00"));	//设 基准时间
@@ -441,18 +515,8 @@
 			return Password;
 		}
 
-		/* 不懂干嘛用的hhh
-		//“每日健康填报” 文字
-		function clearName() {
-			$('#name').val('')
-		}
+		//“每日健康填报” 跳转
 
-		function getName() {
-			let name = $('#name').val()
-			$('#float').html(name)
-			$('#name').val('每日健康填报')
-		}
-		*/
 
 
 
